@@ -8,6 +8,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import com.example.actividad1.ui.theme.Actividad1Theme
 import com.example.actividad1.screens.TaskListScreen //Importar la otra pantalla
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.actividad1.screens.TaskDetailScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -19,6 +23,8 @@ class MainActivity : ComponentActivity() {
 
             Actividad1Theme {
 
+                val navController = rememberNavController()
+
                 val tasks = remember {
                     mutableStateListOf(
                         Task(1, "Comprar comida", false),
@@ -28,17 +34,49 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                TaskListScreen(
-                    tasks = tasks,
-                    onCompletedChange = { task, completed ->
+                NavHost(
+                    navController = navController,
+                    startDestination = "lista"
+                ) {
 
-                        val index =
-                            tasks.indexOfFirst { it.id == task.id }
+                    composable("lista") {
 
-                        tasks[index] =
-                            task.copy(completed = completed)
+                        TaskListScreen(
+                            tasks = tasks,
+
+                            onCompletedChange = { task, completed ->
+
+                                val index =
+                                    tasks.indexOfFirst { it.id == task.id }
+
+                                tasks[index] =
+                                    task.copy(completed = completed)
+                            },
+
+                            onTaskClick = { task ->
+                                navController.navigate("detalle/${task.id}")
+                            }
+                        )
                     }
-                )
+
+                    composable("detalle/{id}") {
+
+                        val id = it.arguments?.getString("id")?.toIntOrNull()
+
+                        val task = tasks.find { task ->
+                            task.id == id
+                        }
+
+                        if (task != null) {
+                            TaskDetailScreen(
+                                task = task,
+                                onBack = {
+                                    navController.popBackStack()
+                                }
+                            )
+                        }
+                    }
+                }
             }
         }
     }
