@@ -98,7 +98,15 @@ class MainActivity : ComponentActivity() {
                         if (task != null) {
                             TaskDetailScreen(
                                 task = task,
+
                                 onBack = {
+                                    navController.popBackStack()
+                                },
+
+                                onDelete = {
+
+                                    tasks.remove(task)
+
                                     navController.popBackStack()
                                 }
                             )

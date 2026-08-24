@@ -15,7 +15,8 @@ import com.example.actividad1.Task
 @Composable
 fun TaskDetailScreen(
     task: Task,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onDelete: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -39,6 +40,12 @@ fun TaskDetailScreen(
             onClick = onBack
         ) {
             Text("Regresar")
+        }
+
+        Button(
+            onClick = onDelete
+        ) {
+            Text("Eliminar")
         }
     }
 }
