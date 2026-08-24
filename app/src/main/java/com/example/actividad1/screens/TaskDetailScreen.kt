@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.actividad1.Task
+import com.example.actividad1.getTaskStatus
 
 @Composable
 fun TaskDetailScreen(
@@ -74,11 +75,7 @@ fun TaskDetailScreen(
             )
 
             Text(
-                text = if (task.completed) {
-                    "Completada"
-                } else {
-                    "Pendiente"
-                },
+                text = getTaskStatus(task.completed),
                 modifier = Modifier.fillMaxWidth()
             )
 

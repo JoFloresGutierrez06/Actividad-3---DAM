@@ -18,6 +18,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.actividad1.InvalidTaskException
+import com.example.actividad1.TaskValidator
 
 @Composable
 fun CreateTaskScreen(
@@ -68,7 +70,14 @@ fun CreateTaskScreen(
             }
 
             TextButton(
-                onClick = onBack,
+                onClick = {
+                    try {
+                        TaskValidator.isValid(title)
+                        onSave(title)
+                    } catch (e: InvalidTaskException) {
+                        // El título no es válido
+                    }
+                },
                 modifier = Modifier.padding(top = 8.dp)
             ) {
                 Text("Cancelar")
