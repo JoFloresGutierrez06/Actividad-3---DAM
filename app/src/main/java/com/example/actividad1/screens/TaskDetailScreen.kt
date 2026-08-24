@@ -3,10 +3,13 @@ package com.example.actividad1.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,51 +32,74 @@ fun TaskDetailScreen(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize()
     ) {
 
-        Text("Detalle de la tarea")
-
-        OutlinedTextField(
-            value = title,
-            onValueChange = { title = it },
-            label = {
-                Text("Título")
-            }
+        TopBar(
+            title = "Detalles de la tarea",
+            onBack = onBack
         )
 
-        Text(
-            text = if (task.completed) {
-                "Completada"
-            } else {
-                "Pendiente"
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
+
+            Text(
+                text = "Título",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Text(
+                text = "Estado",
+                style = MaterialTheme.typography.titleMedium,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        top = 24.dp,
+                        bottom = 8.dp
+                    )
+            )
+
+            Text(
+                text = if (task.completed) {
+                    "Completada"
+                } else {
+                    "Pendiente"
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Button(
+                onClick = {
+                    if (title.isNotBlank()) {
+                        onEdit(title)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)
+            ) {
+                Text("Guardar cambios")
             }
-        )
 
-        Button(
-            onClick = {
-                if (title.isNotBlank()) {
-                    onEdit(title)
-                }
+            TextButton(
+                onClick = onDelete
+            ) {
+                Text("Eliminar")
             }
-        ) {
-            Text("Guardar cambios")
-        }
-
-        Button(
-            onClick = onBack
-        ) {
-            Text("Regresar")
-        }
-
-        Button(
-            onClick = onDelete
-        ) {
-            Text("Eliminar")
         }
     }
 }

@@ -3,10 +3,13 @@ package com.example.actividad1.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,37 +29,50 @@ fun CreateTaskScreen(
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize()
     ) {
 
-        Text("Nueva tarea")
-
-        OutlinedTextField(
-            value = title,
-            onValueChange = { title = it },
-            label = {
-                Text("Título de la tarea")
-            }
+        TopBar(
+            title = "Crear nueva tarea",
+            onBack = onBack
         )
 
-        Button(
-            onClick = {
-                if (title.isNotBlank()) {
-                    onSave(title)
-                }
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            Text("Guardar")
-        }
 
-        Button(
-            onClick = onBack
-        ) {
-            Text("Cancelar")
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                label = {
+                    Text("Título de la tarea")
+                },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Button(
+                onClick = {
+                    if (title.isNotBlank()) {
+                        onSave(title)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)
+            ) {
+                Text("Crear tarea")
+            }
+
+            TextButton(
+                onClick = onBack,
+                modifier = Modifier.padding(top = 8.dp)
+            ) {
+                Text("Cancelar")
+            }
         }
     }
 }
