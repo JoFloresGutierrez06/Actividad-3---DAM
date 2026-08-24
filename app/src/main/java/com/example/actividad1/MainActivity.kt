@@ -108,6 +108,16 @@ class MainActivity : ComponentActivity() {
                                     tasks.remove(task)
 
                                     navController.popBackStack()
+                                },
+
+                                onEdit = { newTitle ->
+                                    val index = tasks.indexOfFirst { it.id == task.id }
+
+                                    if (index != -1) {
+                                        tasks[index] = tasks[index].copy(
+                                            title = newTitle
+                                        )
+                                    }
                                 }
                             )
                         }
