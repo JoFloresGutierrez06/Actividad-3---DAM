@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.actividad1.screens.TaskDetailScreen
+import com.example.actividad1.screens.CreateTaskScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -30,7 +31,8 @@ class MainActivity : ComponentActivity() {
                         Task(1, "Comprar comida", false),
                         Task(2, "Estudiar Kotlin", false),
                         Task(3, "Hacer ejercicio", true),
-                        Task(4, "Comer yogurth", false)
+                        Task(4, "Comer yogurth", false),
+                        Task(5, "Entregar la Actividad 2", false)
                     )
                 }
 
@@ -43,7 +45,6 @@ class MainActivity : ComponentActivity() {
 
                         TaskListScreen(
                             tasks = tasks,
-
                             onCompletedChange = { task, completed ->
 
                                 val index =
@@ -52,9 +53,36 @@ class MainActivity : ComponentActivity() {
                                 tasks[index] =
                                     task.copy(completed = completed)
                             },
-
                             onTaskClick = { task ->
                                 navController.navigate("detalle/${task.id}")
+                            },
+                            onCreateTask = {
+                                navController.navigate("crear")
+                            }
+                        )
+                    }
+
+                    composable("crear") {
+
+                        CreateTaskScreen(
+                            onSave = { title ->
+
+                                val newId =
+                                    (tasks.maxOfOrNull { it.id } ?: 0) + 1
+
+                                tasks.add(
+                                    Task(
+                                        id = newId,
+                                        title = title,
+                                        completed = false
+                                    )
+                                )
+
+                                navController.popBackStack()
+                            },
+
+                            onBack = {
+                                navController.popBackStack()
                             }
                         )
                     }

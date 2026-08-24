@@ -9,16 +9,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.example.actividad1.Task
 import androidx.compose.foundation.clickable
+import androidx.compose.material3.Button
 import androidx.compose.ui.Modifier
 
 @Composable
 fun TaskListScreen(
     tasks: List<Task>,
     onCompletedChange: (Task, Boolean) -> Unit, // "MainActivity, tú tienes los datos. Yo solamente te aviso cuando el usuario haga algo."
-    onTaskClick: (Task) -> Unit
+    onTaskClick: (Task) -> Unit,
+    onCreateTask: () -> Unit
 ) {
     Column {
+
         Text("Mis tareas")
+
+        Button(
+            onClick = onCreateTask
+        ) {
+            Text("Nueva tarea")
+        }
 
         LazyColumn {
 
