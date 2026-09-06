@@ -1,9 +1,10 @@
 package com.example.actividad1
 
-fun getTaskStatus(completed: Boolean): String {
-    return if (completed) {
-        "Completada"
-    } else {
-        "Pendiente"
+
+fun getTaskPriority(priority: Priority): String {
+    return when (priority) {
+        Priority.Baja -> "Baja"
+        Priority.Media -> "Media"
+        Priority.Alta -> "Alta"
     }
 }
